@@ -53,5 +53,11 @@ public class StaffService implements IStaffService {
 		// TODO Auto-generated method stub
 		return staffDao.findAll(spec, pageable);
 	}
+
+	@Override
+	public void delete(Staff entity) {
+		staffDao.delete(entity);
+		
+	}
 	
 }

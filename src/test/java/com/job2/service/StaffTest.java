@@ -22,82 +22,6 @@ import com.job2.service.IStaffService;
 import com.job2.util.BaseTest;
 import com.job2.util.SexEnum;
 /**
- * 欧蓝逞
-
-柯掩澈
-
-谢钟绣
-
-安雨沫
-
-安若素
-
-安恋熙
-
-斯凡
-
-凡筱若
-
-于霏
-
-安知晓
-
-安念莲
-
-安瑾凉
-
-杨语菲
-
-杨兮诺
-
-杨伈
-
-夏璃沫
-
-叶梓潼
-
-尹梦竹
-
-莫熙慈
-
-顾一
-
-温诩言
-
-夏梓晗
-
-云轻
-
-夏天
-
-挽歌
-
-弱水
-
-王语焉
-
-程灵素
-
-霍青桐
-
-木婉清
-
-雅绿
-
-冰蓝
-
-浅浅
-
-花不迟
-
-苏唯
-
-白素
-
-齐无真
-
-叶蓁
-
  * @author acer-pc
  *
  */
@@ -121,17 +45,7 @@ public class StaffTest extends BaseTest{
 		staff.setOrganization(organization);
 		staffService.save(staff);
 	}
-	@Test
-	@Transactional
-	@Rollback(false)
-	public void update(){
-		Organization organization = organizationService.findByName("国务院");
-		Organization organization2 = organizationService.findByName("教育部");
-		organization2.setpOrganization(organization);
-		//organization.getcOrganizations().add(organization2);
-		organizationService.save(organization2);
-		//organizationService.save(organization);
-	}
+
 	@Test
 	//保存教育部员工,及下属部门员工
 	public void save2(){
@@ -177,7 +91,19 @@ public class StaffTest extends BaseTest{
 		staff4.setOrganization(organization3);
 		staffService.save(staff4);
 	}
-	
+	//添加数据
+	@Test
+	public void saveALl(){
+		save1();
+		save2();
+	}
+	//测试根据Id查询，并删除
+	@Test
+	public void saveAndDelete(){
+		Staff staff = staffService.findOne(1L);
+		System.out.println(staff.getName()+"将要删除");
+		staffService.delete(staff);
+	}
 	//测试分页查询
 	@Test
 	public void findPage(){
@@ -189,7 +115,7 @@ public class StaffTest extends BaseTest{
 	@Test
 	public void findStaffBySex(){
 		Sort sort = new Sort(Direction.ASC, "age").and(new Sort(Direction.DESC,"number"));
-		Pageable pageable1 = new PageRequest(0, 2,sort);;
+		Pageable pageable1 = new PageRequest(0, 4,sort);;
 		Page<Staff> page = staffService.findBySex(SexEnum.MALE, pageable1);
 		for(Staff s : page.getContent()){
 			System.out.println(s.getName());
@@ -205,13 +131,15 @@ public class StaffTest extends BaseTest{
 			System.out.println(s.getName());
 		}
 	}
-	//动态分页查询员工
+	//根据名字动态分页模糊查询员工
 	@Test
 	public void findBySpecification(){
 		StaffQueryDTO staffDTO = new StaffQueryDTO();
-		staffDTO.setName("程灵素");
-		System.out.println("------------------------");
-		Page<Staff> page =  staffService.findAll(StaffQueryDTO.getSpecification(staffDTO), new PageRequest(0, 10));
-		System.out.println(page.getContent().get(0).getAddress());
+		staffDTO.setName("素");
+		Pageable pageable = new PageRequest(0,3);
+		Page<Staff> page =  staffService.findAll(StaffQueryDTO.getSpecification(staffDTO),pageable);
+		for (int i = 0; i <page.getNumberOfElements(); i++) {
+			System.out.println(page.getContent().get(i).getName());
+		}
 	}
 }

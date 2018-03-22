@@ -6,4 +6,5 @@ public interface IOrganizationService {
 	public Organization findByName(String s);
 	Organization findOne(Long id);
 	<S extends Organization> Organization save(Organization entity);
+	void delete(Organization entity);
 }

@@ -28,5 +28,10 @@ public class OrganizationService implements IOrganizationService {
 		// TODO Auto-generated method stub
 		return organizationDao.save(entity);
 	}
+	@Override
+	public void delete(Organization entity) {
+		// TODO Auto-generated method stub
+		organizationDao.delete(entity);
+	}
 	
 }

@@ -36,7 +36,7 @@ public class StaffQueryDTO {
 			public Predicate toPredicate(Root<Staff> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 				List<Predicate> list = new ArrayList<Predicate>();
 				if(StaffDTO!=null&&!org.springframework.util.StringUtils.isEmpty(StaffDTO.getName())){
-					Predicate p1 = cb. equal(root.get("name").as(String.class), StaffDTO.getName());
+					Predicate p1 = cb. like(root.get("name").as(String.class),"%"+StaffDTO.getName()+"%");
 					list.add(p1);
 				}
 				return cb.and(list.get(0));

@@ -1,9 +1,13 @@
 package com.job2.service;
 
+import javax.transaction.Transactional;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 
 import com.job2.entity.Organization;
+import com.job2.entity.Staff;
 import com.job2.service.IOrganizationService;
 import com.job2.util.BaseTest;
 
@@ -35,31 +39,35 @@ public class OrganizationTest extends BaseTest {
 		organizationService.save(o1);
 	}
 	@Test
-	public void save3(){
-		Organization o2=new Organization();
-		o2.setName("公安部");
-		o2.setNumber("A002");
-		Organization o21=new Organization();
-		o21.setName("纪检监察局");
-		o21.setNumber("A0021");
-		Organization o22=new Organization();
-		o22.setName("治安管理局");
-		o22.setNumber("A0022");
-		Organization o23=new Organization();
-		o23.setName("禁毒局");
-		o23.setNumber("A0023");
-		o21.setpOrganization(o2);
-		o22.setpOrganization(o2);
-		o23.setpOrganization(o2);
-		o2.getcOrganizations().add(o21);
-		o2.getcOrganizations().add(o22);
-		o2.getcOrganizations().add(o23);
-		organizationService.save(o2);
+	@Transactional
+	@Rollback(false)
+	public void update(){
+		Organization organization = organizationService.findByName("国务院");
+		Organization organization2 = organizationService.findByName("教育部");
+		organization2.setpOrganization(organization);
+		organizationService.save(organization2);
 	}
+
 	@Test
 	public void saveAll(){
 		save1();
 		save2();
-		save3();
+		//save3();
+	}
+	//测试删除和更新
+	@Test
+	@Transactional
+	@Rollback(false)
+	public void delete(){
+		Organization entity = organizationService.findByName("教育部");
+		/*for(Organization o : entity.getcOrganizations()){
+			o.setpOrganization(entity.getpOrganization());
+		}
+		for(Staff s : entity.getStaffs()){
+			s.setOrganization(null);
+		}
+		entity.setpOrganization(null);
+		organizationService.save(entity);*/
+		organizationService.delete(entity);
 	}
 }
