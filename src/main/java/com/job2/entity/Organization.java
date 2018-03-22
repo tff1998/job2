@@ -27,7 +27,7 @@ public class Organization extends BaseEntity{
 	public String getNumber() {
 		return number;
 	}
-	@OneToMany(mappedBy="pOrganization",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="pOrganization",cascade={CascadeType.PERSIST,CascadeType.REFRESH})
 	public Set<Organization> getcOrganizations() {
 		return cOrganizations;
 	}
@@ -35,7 +35,7 @@ public class Organization extends BaseEntity{
 	public Organization getpOrganization() {
 		return pOrganization;
 	}
-	@OneToMany(mappedBy="organization")
+	@OneToMany(mappedBy="organization",cascade={CascadeType.PERSIST,CascadeType.REFRESH})
 	public Set<Staff> getStaffs() {
 		return staffs;
 	}

@@ -60,14 +60,14 @@ public class OrganizationTest extends BaseTest {
 	@Rollback(false)
 	public void delete(){
 		Organization entity = organizationService.findByName("教育部");
-		/*for(Organization o : entity.getcOrganizations()){
+		for(Organization o : entity.getcOrganizations()){
 			o.setpOrganization(entity.getpOrganization());
 		}
 		for(Staff s : entity.getStaffs()){
 			s.setOrganization(null);
 		}
-		entity.setpOrganization(null);
-		organizationService.save(entity);*/
+		//entity.setpOrganization(null);
+		organizationService.save(entity);
 		organizationService.delete(entity);
 	}
 }
